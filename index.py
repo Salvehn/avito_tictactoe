@@ -14,21 +14,25 @@ matrix = initialize(3)
 
 
 def check(lst):
+    # first diagonal
+    d1 = [lst[i][i] for i in range(len(lst))]
+    diagonal1 = every(d1, lambda x: x is False) or every(
+        d1, lambda x: x is True)
 
-    diagonal1 = every([lst[i][i] for i in range(len(lst))],
-                      lambda x: x is False or x is True)
-    diagonal2 = every([lst[i][len(lst)-i-1]
-                      for i in range(len(lst))], lambda x: x is False or x is True)
-    horizontal = some([every([c for c in row], lambda x:  x is False)
-                      for row in lst], lambda x: x is True) or some([every([c for c in row], lambda x:  x is True)
-                                        for row in lst], lambda x: x is True)
+    # second diagonal
+    d2 = [lst[i][len(lst)-i-1] for i in range(len(lst))]
+    diagonal2 = every(d2, lambda x: x is False) or every(
+        d2, lambda x: x is True)
+
+    h = [every([c for c in row], lambda x:  x is False) for row in lst]
+    horizontal = some(h, lambda x: x is True) or some(h, lambda x: x is True)
+
     collist = []
     for i in range(len(lst)):
-        collist.append([lst[j][i] for j in range(len(lst[i]))]  )
+        collist.append([lst[j][i] for j in range(len(lst[i]))])
 
-    vertical = some([every([c for c in row], lambda x:  x is False)
-                      for row in collist], lambda x: x is True) or some([every([c for c in row], lambda x:  x is True)
-                                        for row in collist], lambda x: x is True)
+    v = [every([c for c in row], lambda x:  x is False) for row in collist]
+    vertical = some(v, lambda x: x is True) or some(v, lambda x: x is True)
 
     if horizontal or vertical or diagonal1 or diagonal2:
         return True
@@ -47,14 +51,17 @@ def repl(x):
 
 
 def mask(lst):
-    print('\n'.join(['|'.join([repl(c) for c in row]) for row in lst]))
+    data = ['|'.join([repl(c) for c in row]) for row in lst]
+
+    print('\n──────────────\n'.join(data))
 
 
 while finished is False:
     print(concat(' ', 'Player ', str(1 if player else 2), 'Insert pos:'))
     address = input()
     xy = address.split(',')
-    isInRange = (int(x)-1) < len(matrix) and (int(x) - 1) < len(matrix[0])
+    isInRange = (
+        int(xy[0])-1) < len(matrix) and (int(xy[1]) - 1) < len(matrix[0])
     isNotTaken = matrix[int(xy[0]) - 1][int(xy[1]) - 1] is None
 
     if every(xy, lambda x: x.isdigit() and isInRange and isNotTaken):
