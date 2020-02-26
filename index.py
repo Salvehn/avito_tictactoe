@@ -95,7 +95,7 @@ def start():
         xy = addrToInd(xy)
 
         # validates all
-        if every(xy, lambda x: isInRange(xy,matrix) and isNotTaken(xy,matrix)):
+        if isInRange(xy,matrix) and isNotTaken(xy,matrix):
             matrix[xy[0] - 1][xy[1] - 1] = player
 
             print(mask(matrix))
