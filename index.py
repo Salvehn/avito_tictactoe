@@ -101,8 +101,9 @@ def start():
     player = True
 
     while finished is False:
-        print(concat(' ', 'Player ', str(1 if player else 2), 'Insert pos:'))
+
         if mode == 2:
+            print(concat(' ', 'Player ', str(1 if player else 2), 'Insert pos:'))
             address = input()
             xy = address.split(',')
             xy = addrToInd(xy)
@@ -110,6 +111,7 @@ def start():
             xy=[random.randint(0,int(dim)),random.randint(0,int(dim))]
         else:
             if player:
+                print(concat(' ', 'Player ', str(1 if player else 2), 'Insert pos:'))
                 address = input()
                 xy = address.split(',')
                 xy = addrToInd(xy)
