@@ -1,5 +1,5 @@
 from proto import every, concat, some
-
+import random
 
 #initializes matrix
 def initialize(dim: int = 0) -> list:
@@ -65,7 +65,7 @@ def addrToInd(xy: list) -> list:
 # validates if address is in range
 def isInRange(addr: list, matrix: list) -> bool:
     return ((addr[0]-1) < len(matrix) and (addr[1] - 1) < len(matrix[0])) and ((
-            addr[0]-1) >= 0 and (addr[1] - 1) >= 0 )
+            addr[0]-1) >=0 and (addr[1] - 1) >= 0 )
 
 
 # validates if address wasnt taken
@@ -74,6 +74,16 @@ def isNotTaken(addr: list, matrix: list) -> bool:
 
 
 def start():
+    option = ''
+    options = {'Авто': True, 'Ручной': False}
+    mode = True
+    while option not in options:
+        print('Выберите режим: {}/{}'.format(*options))
+        option = input()
+        if options[option]:
+            mode = False
+
+
     print('Enter dimension: ')
     dim = input()
     if dim.isdigit() and int(dim)>=3:
@@ -90,9 +100,13 @@ def start():
 
     while finished is False:
         print(concat(' ', 'Player ', str(1 if player else 2), 'Insert pos:'))
-        address = input()
-        xy = address.split(',')
-        xy = addrToInd(xy)
+        if mode:
+            address = input()
+            xy = address.split(',')
+            xy = addrToInd(xy)
+        else:
+            xy=[random.randint(0,int(dim)),random.randint(0,int(dim))]
+
 
         # validates all
         if isInRange(xy,matrix) and isNotTaken(xy,matrix):
