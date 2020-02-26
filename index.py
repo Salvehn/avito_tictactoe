@@ -65,7 +65,7 @@ def addrToInd(xy: list) -> list:
 # validates if address is in range
 def isInRange(addr: list, matrix: list) -> bool:
     return ((addr[0]-1) < len(matrix) and (addr[1] - 1) < len(matrix[0])) and ((
-            addr[0]-1) > 0 and (addr[1] - 1) > 0 )
+            addr[0]-1) >= 0 and (addr[1] - 1) >= 0 )
 
 
 # validates if address wasnt taken
