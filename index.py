@@ -1,7 +1,7 @@
 from proto import every, concat, some
 import random
 
-#initializes matrix
+#initializes _matrix
 def initialize(dim: int = 0) -> list:
     temp = [[None for i in range(dim)] for j in range(dim)]
     return temp
@@ -63,14 +63,14 @@ def addrToInd(xy: list) -> list:
 
 
 # validates if address is in range
-def isInRange(addr: list, matrix: list) -> bool:
-    return ((addr[0]-1) < len(matrix) and (addr[1] - 1) < len(matrix[0])) and ((
+def isInRange(addr: list, _matrix: list) -> bool:
+    return ((addr[0]-1) < len(_matrix) and (addr[1] - 1) < len(_matrix[0])) and ((
             addr[0]-1) >=0 and (addr[1] - 1) >= 0 )
 
 
 # validates if address wasnt taken
-def isNotTaken(addr: list, matrix: list) -> bool:
-    return matrix[addr[0] - 1][addr[1] - 1] is None
+def isNotTaken(addr: list, _matrix: list) -> bool:
+    return _matrix[addr[0] - 1][addr[1] - 1] is None
 
 
 def start():
@@ -88,22 +88,22 @@ def start():
     print('Enter dimension: ')
     dim = input()
     if not dim:
-        print('Matrix dimensions error, generating default 3x3 matrix')
+        print('_matrix dimensions error, generating default 3x3 _matrix')
         dim = 3
     dim = int(dim)
-    matrix = initialize(dim)
+    _matrix = initialize(dim)
 
 
     print('TicTacToe!\n')
-    print(mask(matrix),'\n')
+    print(mask(_matrix),'\n')
 
-    finished = False
-    player = True
+    _finished = False
+    _player = True
 
-    while finished is False:
+    while _finished is False:
 
         if mode == 2:
-            print(concat(' ', 'Player ', str(1 if player else 2), 'Insert pos:'))
+            print(concat(' ', 'Player ', str(1 if _player else 2), 'Insert pos:'))
             address = input()
             xy = address.split(',')
             xy = addrToInd(xy)
@@ -111,8 +111,8 @@ def start():
             print('AI turn: ')
             xy=[random.randint(0,int(dim)),random.randint(0,int(dim))]
         else:
-            if player:
-                print(concat(' ', 'Player ', str(1 if player else 2), 'Insert pos:'))
+            if _player:
+                print(concat(' ', 'Player ', str(1 if _player else 2), 'Insert pos:'))
                 address = input()
                 xy = address.split(',')
                 xy = addrToInd(xy)
@@ -122,29 +122,29 @@ def start():
 
 
         # validates all
-        if isInRange(xy,matrix) and isNotTaken(xy,matrix):
-            matrix[xy[0] - 1][xy[1] - 1] = player
+        if isInRange(xy,_matrix) and isNotTaken(xy,_matrix):
+            _matrix[xy[0] - 1][xy[1] - 1] = _player
 
-            print(mask(matrix))
+            print(mask(_matrix))
 
             # checks if there are still unused cells
-            a = [every([c for c in row], lambda x: x is False or x is True) for row in matrix]
+            a = [every([c for c in row], lambda x: x is False or x is True) for row in _matrix]
             available = every(a, lambda x: x is True)
             if available:
                 print('Draw')
                 break
                 return
-            if check(matrix):
-                finished = True
-                print(concat(' ', '\nPlayer', str(1 if player else 2), 'won!'))
+            if check(_matrix):
+                _finished = True
+                print(concat(' ', '\nPlayer', str(1 if _player else 2), 'won!'))
                 break
                 return
-            player = not player
+            _player = not _player
         else:
             if mode == 2:
                 print('Invalid address')
             else:
-                if player:
+                if _player:
                     print('Invalid address')
 
 if __name__ == '__main__':
