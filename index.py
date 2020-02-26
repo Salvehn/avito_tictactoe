@@ -75,15 +75,14 @@ def isNotTaken(addr: list, matrix: list) -> bool:
 
 def start():
     option = ''
-    options = {'Авто': True, 'Ручной': False}
-    mode = True
+    options = {'Авто': 1, 'Ручной': 2, 'Полу': 3}
     while option not in options:
-        print('Выберите режим: {}/{}'.format(*options))
+        print('Выберите режим: {}/{}/{}'.format(*options))
         option = input()
         if not option:
             option = 'Ручной'
         if options[option]:
-            mode = False
+            mode = options[option]
 
 
     print('Enter dimension: ')
@@ -103,12 +102,19 @@ def start():
 
     while finished is False:
         print(concat(' ', 'Player ', str(1 if player else 2), 'Insert pos:'))
-        if mode:
+        if mode == 2:
             address = input()
             xy = address.split(',')
             xy = addrToInd(xy)
-        else:
+        elif mode == 1:
             xy=[random.randint(0,int(dim)),random.randint(0,int(dim))]
+        else:
+            if player:
+                address = input()
+                xy = address.split(',')
+                xy = addrToInd(xy)
+            else:
+                xy=[random.randint(0,int(dim)),random.randint(0,int(dim))]
 
 
         # validates all
@@ -131,8 +137,11 @@ def start():
                 return
             player = not player
         else:
-            print('Invalid address')
-
+            if mode == 2:
+                print('Invalid address')
+            else:
+                if player:
+                    print('Invalid address')
 
 if __name__ == '__main__':
     start()
