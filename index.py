@@ -6,7 +6,7 @@ def initialize(dim: int = 0) -> list:
     return temp
 
 
-def check(lst):
+def check(lst: list) -> bool:
     # first diagonal
     d1 = [lst[i][i] for i in range(len(lst))]
     diagonal1 = every(d1, lambda x: x is False) or every(
@@ -33,25 +33,37 @@ def check(lst):
         return False
 
 
-def repl(x):
+def repl(x) -> str:
     if x is not None:
         if x is True:
-            return ' ✕  '
+            return ' ✕ '
         else:
-            return ' ◯  '
+            return ' ◯ '
     else:
-        return '    '
+        return '   '
 
 
-def mask(lst):
-    data = ['|'.join([repl(c) for c in row]) for row in lst]
-    print('\n──────────────\n'.join(data))
+def mask(lst: list):
+    data = ['┃'.join([repl(c) for c in row]) for row in lst]
+    str = ['━━━' for c in lst]
+    return ('\n'+('╋'.join(str))+'\n').join(data)
 
 
 def start():
-    matrix = initialize(3)
+    print('Enter dimension: ')
+    dim = input()
+    if dim.isdigit() and int(dim)>=3:
+        matrix = initialize(int(dim))
+    else:
+        print('Matrix dimensions error, generating default 3x3 matrix')
+        matrix = initialize(3)
+
+    print('TicTacToe!\n')
+    print(mask(matrix),'\n')
+
     finished = False
     player = True
+
     while finished is False:
         print(concat(' ', 'Player ', str(1 if player else 2), 'Insert pos:'))
         address = input()
@@ -62,7 +74,9 @@ def start():
 
         if every(xy, lambda x: x.isdigit() and isInRange and isNotTaken):
             matrix[int(xy[0]) - 1][int(xy[1]) - 1] = player
-            mask(matrix)
+
+            print(mask(matrix))
+
             a = [every([c for c in row], lambda x: x is False or x is True) for row in matrix]
             available = every(a, lambda x: x is True)
             if available:
