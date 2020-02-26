@@ -108,6 +108,7 @@ def start():
             xy = address.split(',')
             xy = addrToInd(xy)
         elif mode == 1:
+            print('AI turn: ')
             xy=[random.randint(0,int(dim)),random.randint(0,int(dim))]
         else:
             if player:
@@ -116,6 +117,7 @@ def start():
                 xy = address.split(',')
                 xy = addrToInd(xy)
             else:
+                print('AI turn: ')
                 xy=[random.randint(0,int(dim)),random.randint(0,int(dim))]
 
 
