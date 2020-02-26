@@ -80,17 +80,20 @@ def start():
     while option not in options:
         print('Выберите режим: {}/{}'.format(*options))
         option = input()
+        if not option:
+            option = 'Ручной'
         if options[option]:
             mode = False
 
 
     print('Enter dimension: ')
     dim = input()
-    if dim.isdigit() and int(dim)>=3:
-        matrix = initialize(int(dim))
-    else:
+    if not dim:
         print('Matrix dimensions error, generating default 3x3 matrix')
-        matrix = initialize(3)
+        dim = 3
+    dim = int(dim)
+    matrix = initialize(dim)
+
 
     print('TicTacToe!\n')
     print(mask(matrix),'\n')
